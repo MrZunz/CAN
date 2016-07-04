@@ -1,0 +1,69 @@
+div.col-md-12
+	table.table.table-condensed
+		thead
+			tr
+				th ID
+				//th(colspan="8") Byte(s)
+				th Byte1
+				th Byte2
+				th Byte3
+				th Byte4
+				th Byte5
+				th Byte6
+				th Byte7
+				th Byte8
+		tbody
+			tr(ng-repeat="(index, message) in queue track by $index")
+				td 
+					input(ng-change="saveQueue()", type="text", class="form-control", placeholder="ID", maxlength="3", ng-model="message.id")
+				td 
+					input(ng-change="saveQueue()", type="text", class="form-control", placeholder="00", maxlength="2", ng-model="message.bytes[0]")
+				td 
+					input(ng-change="saveQueue()", type="text", class="form-control", placeholder="00", maxlength="2", ng-model="message.bytes[1]")
+				td 
+					input(ng-change="saveQueue()", type="text", class="form-control", placeholder="00", maxlength="2", ng-model="message.bytes[2]")
+				td 
+					input(ng-change="saveQueue()", type="text", class="form-control", placeholder="00", maxlength="2", ng-model="message.bytes[3]")
+				td 
+					input(ng-change="saveQueue()", type="text", class="form-control", placeholder="00", maxlength="2", ng-model="message.bytes[4]")
+				td 
+					input(ng-change="saveQueue()", type="text", class="form-control", placeholder="00", maxlength="2", ng-model="message.bytes[5]")
+				td 
+					input(ng-change="saveQueue()", type="text", class="form-control", placeholder="00", maxlength="2", ng-model="message.bytes[6]")
+				td 
+					input(ng-change="saveQueue()", type="text", class="form-control", placeholder="00", maxlength="2", ng-model="message.bytes[7]")
+				td
+					button.btn.btn-default.move-direction(ng-click="moveUpInQueue(index)")
+						i.ion-chevron-up
+					button.btn.btn-default.move-direction(ng-click="moveDownInQueue(index)")
+						i.ion-chevron-down
+				td 
+					button.btn.btn-danger(ng-click="removeFromQueue(index)")
+						i.ion-android-close
+
+
+			tr.active
+				td 
+					input(type="text", required, class="form-control", placeholder="ID", maxlength="3", ng-model="newMessage.id")
+				td 
+					input(type="text", class="form-control", placeholder="00", maxlength="2", ng-model="newMessage.bytes[0]")
+				td 
+					input(type="text", class="form-control", placeholder="00", maxlength="2", ng-model="newMessage.bytes[1]")
+				td 
+					input(type="text", class="form-control", placeholder="00", maxlength="2", ng-model="newMessage.bytes[2]")
+				td 
+					input(type="text", class="form-control", placeholder="00", maxlength="2", ng-model="newMessage.bytes[3]")
+				td 
+					input(type="text", class="form-control", placeholder="00", maxlength="2", ng-model="newMessage.bytes[4]")
+				td 
+					input(type="text", class="form-control", placeholder="00", maxlength="2", ng-model="newMessage.bytes[5]")
+				td 
+					input(type="text", class="form-control", placeholder="00", maxlength="2", ng-model="newMessage.bytes[6]")
+				td 
+					input(type="text", class="form-control", placeholder="00", maxlength="2", ng-model="newMessage.bytes[7]")
+				td
+					button.btn.btn-default(ng-click="addToQueue()")
+						i.ion-android-add
+				td
+					button.btn.btn-success(ng-click="processQueue()")
+						i.ion-paper-airplane

@@ -1,0 +1,10 @@
+div#CAN.container
+	h2 CAN
+	ul.nav.nav-tabs
+		li(ui-sref="can.log", ui-sref-active="active", class="active")
+			a Log
+		li(ui-sref="can.send", ui-sref-active="active")
+			a Send
+		li(ui-sref="can.scan", ui-sref-active="active")
+			a Scan
+	div(ui-view="content")

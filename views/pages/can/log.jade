@@ -1,0 +1,39 @@
+div.col-md-9
+	table.table.table-condensed
+		thead
+			tr
+				th ID
+				th Count
+				th Changes
+				th Length
+				th Interval (ms)
+				th(colspan="8") Byte(s)
+				th 
+		tbody
+			tr(ng-repeat="(index, message) in messages", ng-class="message.changed == true ? 'info' : ''")
+				td	{{message.id}}
+				td	{{message.count}}
+				td	{{message.changeCount}}
+				td	{{message.bytes.length}}
+				td	{{message.interval}}
+				//td(ng-repeat="(index, byte) in message.bytes track by $index", ng-class="byte.changed == true ? 'changed' : ''") {{ byte.value }}
+				td(ng-class="message.bytes[0].changed == true ? 'changed' : ''") {{ message.bytes[0].value }}
+				td(ng-class="message.bytes[1].changed == true ? 'changed' : ''") {{ message.bytes[1].value }}
+				td(ng-class="message.bytes[2].changed == true ? 'changed' : ''") {{ message.bytes[2].value }}
+				td(ng-class="message.bytes[3].changed == true ? 'changed' : ''") {{ message.bytes[3].value }}
+				td(ng-class="message.bytes[4].changed == true ? 'changed' : ''") {{ message.bytes[4].value }}
+				td(ng-class="message.bytes[5].changed == true ? 'changed' : ''") {{ message.bytes[5].value }}
+				td(ng-class="message.bytes[6].changed == true ? 'changed' : ''") {{ message.bytes[6].value }}
+				td(ng-class="message.bytes[7].changed == true ? 'changed' : ''") {{ message.bytes[7].value }}
+				td 
+					button.btn.btn-xs.btn-default(ng-click="moveToQueue(message)") +
+					button.btn.btn-xs.btn-primary(ng-click="send(message)") Resend
+					button.btn.btn-xs.btn-danger(ng-click="addToBlacklist(message.id)") Blacklist
+div.col-md-3
+
+	div.panel.panel-danger
+		div.panel-heading
+			h3.panel-title Blacklist
+				button.btn.btn-sm.btn-default.pull-right(ng-click="clearBlacklist()") Clear
+		div.panel-body
+			span.label.label-default(ng-repeat="id in blacklist") {{id}}

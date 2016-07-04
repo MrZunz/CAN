@@ -1,0 +1,32 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,700,200italic,400italic,700italic);
+body {
+  padding-top: 50px;
+  font-family: "Source Sans Pro", sans-serif;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+body button {
+  color: black;
+}
+
+body #CAN table tr,
+body #CAN table tr input.form-control {
+  text-transform: uppercase;
+}
+
+body #CAN table tr.changed {
+  background-color: rgba(255, 0, 0, 0.25);
+}
+
+body #CAN table td.changed {
+  color: red;
+}
+
+body #CAN button.move-direction,
+body #CAN button.move-direction i {
+  height: 12px;
+  line-height: 6px;
+  font-size: 6px;
+}
+
+/*# sourceMappingURL=style.css.map */

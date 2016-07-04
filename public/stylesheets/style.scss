@@ -1,0 +1,35 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,700,200italic,400italic,700italic);
+
+body {
+	padding-top: 50px;
+	font-family: "Source Sans Pro", sans-serif;
+    //text-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+    -webkit-font-smoothing: subpixel-antialiased;
+
+    button {
+        color: black;
+    }
+
+    #CAN {
+        table {
+            tr,
+            tr input.form-control {
+                text-transform: uppercase;
+            }
+            tr.changed {
+                background-color: rgba(255,0,0,0.25);
+            }
+            td.changed {
+                color: red;
+            }
+        }
+
+        button.move-direction,
+        button.move-direction i {
+            height: 12px;
+            line-height: 6px;
+            font-size: 6px;
+        }
+    }
+	
+}
