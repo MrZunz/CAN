@@ -4,10 +4,11 @@ div#scan.container
 		div.form-group
 			input.form-control(placeholder="00", maxlength="2", ng-model="scan.value").hidden
 			select.form-control(ng-model="scan.type")
-				option(selected="selected") Increased
+				option(selected="selected") Changed
+				option Unchanged
+				option Increased
 				option Decreased
-				//option Unchanged
-				//option Changed
+				
 				
 		button.col-md.2.btn.btn-default(ng-click="startScan()", ng-class="scan.state == 'started' ? 'hidden' : ''") Start scan
 		button.col-md.2.btn.btn-default(ng-click="nextScan()", ng-class="scan.state == 'started' ? '' : 'hidden'") Next scan

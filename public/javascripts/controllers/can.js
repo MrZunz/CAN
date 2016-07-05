@@ -6,7 +6,7 @@ angular.module('app.controllers').controller('canController', function ($scope, 
 	$scope.queue = localStorage.getItem("queue") != null ? JSON.parse(localStorage.getItem("queue")) : new Array();
 	$scope.newMessage = { id: null, bytes: new Array() };
 
-	$scope.scan = { type: "Increased", messages: {} };
+	$scope.scan = { type: "Changed", messages: {} };
 
 	socket.on('can msg', function(channel, msg) {
 		
@@ -165,7 +165,7 @@ angular.module('app.controllers').controller('canController', function ($scope, 
 		// Make copy of the current state of messages
 		if(Object.keys($scope.scan.messages).length == 0) {
 			for(var i in $scope.messages) {
-				var message = $scope.messages[i];
+				var message = JSON.parse(JSON.stringify($scope.messages[i]));
 				$scope.scan.messages[i] = message;
 			}
 		}
@@ -186,17 +186,20 @@ angular.module('app.controllers').controller('canController', function ($scope, 
 	}
 
 	$scope.nextScan = function() {
+
 		// Loop over current messages stored in the scan
 		for(var m in $scope.scan.messages) {
 			var storedMessage = $scope.scan.messages[m];
 			var currentMessage = $scope.messages[m];
-
-			// Reset the changed flag so we can use it for the scan
 			storedMessage.changed = false;
-			currentMessage.changed = false;
 			
 			// Check if the data has been changed or not
 			for(var sb = 0; sb < storedMessage.bytes.length; sb++) {
+
+				if(sb >= currentMessage.bytes.length) {
+					continue;
+				}
+
 				var storedByte = parseInt(storedMessage.bytes[sb].value, 16);
 				var currentByte = parseInt(currentMessage.bytes[sb].value, 16);
 
@@ -204,10 +207,14 @@ angular.module('app.controllers').controller('canController', function ($scope, 
 				storedMessage.bytes[sb].changed = false;
 				currentMessage.bytes[sb].changed = false;
 
+				if(storedByte != currentByte) {
+					storedMessage.bytes[sb].changed = true;
+				}
+
 				switch($scope.scan.type) {
 					case "Increased":
 						if(storedByte > currentByte) {
-							storedMessage.bytes[sb].changed = true;
+	
 						}
 						else {
 							delete $scope.scan.messages[m];
@@ -216,25 +223,59 @@ angular.module('app.controllers').controller('canController', function ($scope, 
 
 					case "Decreased":
 						if(storedByte < currentByte) {
-							storedMessage.bytes[sb].changed = true;
+
 						}
 						else {
 							delete $scope.scan.messages[m];
 						}
 						break;
 
-					// case "Unchanged":
-					// 	if(storedByte == currentByte) {
-	
-					// 	}
-					// 	else {
-					// 		delete $scope.scan.messages[m];
-					// 	}
-					// 	break;
+					case "Changed":
+						if(storedMessage.changed == false && storedMessage.bytes[sb].changed == true) {
+							storedMessage.changed = true;
+						}
+						
+						break;
 					
+					case "Unchanged":
+						if(storedMessage.changed == false && storedMessage.bytes[sb].changed == true) {
+							storedMessage.changed = true;
+						}
+						break;
 				}
 
+				storedMessage.bytes[sb].value = currentMessage.bytes[sb].value;
 			}
+
 		}
+
+		switch($scope.scan.type) {
+			case "Changed":
+				// delete every message that is not marked as changed
+				for(var m in $scope.scan.messages) {
+					var storedMessage = $scope.scan.messages[m];
+					//debugger;
+					if(!storedMessage.changed) {
+						delete $scope.scan.messages[m];
+					}
+					else {
+						//debugger;
+					}
+				}
+				break;
+
+			case "Unchanged":
+				// delete every message that is marked as changed
+				for(var m in $scope.scan.messages) {
+					var storedMessage = $scope.scan.messages[m];
+					//debugger;
+					if(storedMessage.changed) {
+						delete $scope.scan.messages[m];
+					}
+				}
+				break;
+		}
+
+	
 	}
 });
